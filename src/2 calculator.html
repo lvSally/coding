@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <style>
+    /* --------------------
+     [CSS Grid 网格布局教程](https://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)
+     -------------------- */
+    .calculator {
+      width: 500px;
+    }
+
+    .value {
+      height: 100px;
+      width: 100%;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .num-wrap {
+      display: grid;
+      grid-template-columns: repeat(4, fl);
+      grid-template-rows: repeat(5, 100px);
+      grid-gap: 10px;
+      text-align: center;
+    }
+
+    .num-wrap div {
+      border: 1px solid #ccc;
+      line-height: 100px;
+    }
+
+    .equel {
+      grid-row-start: 2;
+      grid-row-end: 6;
+      grid-column-start: 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="calculator">
+    <!----------------------
+    Add your markup here
+    ------------------------>
+    <div class="value"></div>
+    <div class="num-wrap">
+      <div>+</div>
+      <div>-</div>
+      <div>*</div>
+      <div>/</div>
+
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+
+      <div>0</div>
+      <div>.</div>
+      <div>C</div>
+
+      <div class="equel">=</div>
+    </div>
+  </div>
+  <script>
+    /* --------------------
+     Add your code here
+    --------------------- */
+    let res = 0,
+      current = '',
+      operator = "";
+    let valueEle = document.querySelector('.value')
+
+    function calculateFn(num1, num2, sign) {
+      switch (sign) {
+        case '+':
+          return num1 + num2;
+        case '-':
+          return num1 - num2;
+        case '*':
+          return num1 * num2;
+        case '/':
+          return num1 / num2;
+      }
+    }
+    document.querySelector('.num-wrap').addEventListener('click', function (event) {
+      let targetContent = event.target.innerHTML
+      if (/[0-9\.]/.test(targetContent)) {
+        current += targetContent
+        valueEle.innerHTML = current
+      } else if (['+', '-', '*', '/'].indexOf(targetContent) > -1) {
+        if (!res) {
+          res = (+current);
+        }
+        valueEle.innerHTML = ''
+        current = ''
+        operator = targetContent
+      } else if (targetContent === '=') {
+        if (/[\+\-\*\/]/.test(operator)) {
+          res = calculateFn(res, +current, operator)
+          valueEle.innerHTML = res
+        }
+      } else if (targetContent === 'C') {
+        valueEle.innerHTML = ''
+        res = 0
+        current = ''
+        operator = ""
+      }
+    })
+  </script>
+</body>
+
+</html>
