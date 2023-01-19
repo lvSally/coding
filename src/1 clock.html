@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hand Clock</title>
+  <style>
+    /* Add your CSS here */
+    .clockWrap {
+      margin: 20px;
+      border: 1px solid #000;
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+
+    .hand {
+      position: absolute;
+      background: #000;
+      left: 50%;
+      bottom: 50%;
+      transform-origin: bottom;
+    }
+
+    .hour {
+      width: 10px;
+      height: 36px;
+      transform: translateX(-50%);
+    }
+
+    .minute {
+      width: 6px;
+      height: 42px;
+      transform: translateX(-50%);
+    }
+
+    .second {
+      width: 2px;
+      height: 48px;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+
+<body>
+  <!--Add your layout here-->
+  <div class="clockWrap">
+    <div class="hand hour"></div>
+    <div class="hand minute"></div>
+    <div class="hand second"></div>
+  </div>
+  <script>
+    // Add your JavaScript code here
+    function calcDegree(type, time) {
+      const timeMap = {
+        hour: 30,
+        minute: 6,
+        second: 6
+      }
+      return timeMap[type] * time
+    }
+
+    function runClock() {
+      let hourEle = document.querySelector('.hour')
+      let minuteEle = document.querySelector('.minute')
+      let secondEle = document.querySelector('.second')
+      setInterval(() => {
+        let date = new Date()
+        let hour = calcDegree('hour', date.getHours())
+        let minute = calcDegree('minute', date.getMinutes())
+        let second = calcDegree('second', date.getSeconds())
+        hourEle.style.transform = `translateX(-50%) rotate(${hour}deg)`
+        minuteEle.style.transform = `translateX(-50%) rotate(${minute}deg)`
+        secondEle.style.transform = `translateX(-50%) rotate(${second}deg)`
+      }, 1000)
+    }
+
+    runClock()
+  </script>
+</body>
+
+</html>
